@@ -105,3 +105,17 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+uint64
+sys_interpose(void)
+{
+  int mask;
+  //char path[64];
+  argint(0, &mask);
+  if (argstr(1, myproc()->allowed_path, sizeof(myproc()->allowed_path)) < 0){
+    return -1;
+  }
+  myproc() -> sandbox_mask = mask;
+  
+  return 0;
+}

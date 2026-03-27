@@ -278,6 +278,9 @@ kfork(void)
 
   // Cause fork to return 0 in the child.
   np->trapframe->a0 = 0;
+  //sandbox
+  np->sandbox_mask = p->sandbox_mask;
+  safestrcpy(np->allowed_path, p->allowed_path, sizeof(p->allowed_path));
 
   // increment reference counts on open file descriptors.
   for(i = 0; i < NOFILE; i++)
